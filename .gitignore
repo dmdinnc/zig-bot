@@ -1,0 +1,25 @@
+# Environment variables (contains sensitive bot token)
+.env-variables
+
+# Maven build files
+target/
+*.jar
+*.war
+*.ear
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Runtime data files
+*.json
+
+# Logs
+*.log
