@@ -40,29 +40,14 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# Download dependencies for runtime
-echo "Downloading runtime dependencies..."
-mvn dependency:copy-dependencies -DoutputDirectory=target/dependency
-
-if [ $? -ne 0 ]; then
-    echo "Failed to download dependencies!"
-    exit 1
-fi
-
 echo "Build and tests completed successfully!"
 echo ""
 echo "Starting bot..."
 echo "Press Ctrl+C to stop the bot"
 echo ""
 
-# Run the bot - handle Git Bash on Windows classpath issues
-if [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "cygwin" ]] || [[ -n "$BASH_VERSION" && "$OS" == "Windows_NT" ]]; then
-    # Git Bash on Windows - use Windows-style classpath
-    java -cp "target/classes;target/dependency/*" com.discordbot.Main
-else
-    # Unix-like systems - use Unix-style classpath
-    java -cp "target/classes:target/dependency/*" com.discordbot.Main
-fi
+# Run the standalone fat JAR
+java -jar zig-bot.jar
 
 if [ $? -ne 0 ]; then
     echo ""
