@@ -118,7 +118,34 @@ Convert images to GIF format:
 
 ### Development Scripts
 
-- **`launch.sh`**: Builds and runs the bot with proper logging
+- **`launch.sh`**: Builds and runs the Discord bot with proper logging
+- **`launch-webex.sh`**: Builds and runs the Webex bot (Unix/macOS)
+
+### Webex Bot (framework)
+
+The repository includes a minimal Webex bot runner that starts a local webhook HTTP server. Feature integration will come later.
+
+1. Copy the example environment file (if not already done):
+   ```bash
+   cp .env-variables.example .env-variables
+   ```
+
+2. Configure Webex settings in `.env-variables`:
+   ```properties
+   # Webex Bot Configuration
+   webex.bot.token=YOUR_WEBEX_BOT_TOKEN_HERE
+   webex.webhook.secret=YOUR_WEBEX_WEBHOOK_SECRET_HERE
+   webex.port=8080
+   ```
+
+3. Build and run:
+   - Unix/macOS:
+     ```bash
+     ./launch-webex.sh
+     ```
+
+4. Verify the bot is up by checking the health endpoint:
+   - http://localhost:8080/healthz → should return `ok`
 
 ### Getting Discord Bot Token
 
