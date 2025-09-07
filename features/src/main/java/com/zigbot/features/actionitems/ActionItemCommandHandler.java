@@ -35,6 +35,7 @@ public class ActionItemCommandHandler implements BotCommandHandler {
     private ScheduledFuture<?> dailyCheckFuture;
     private ScheduledFuture<?> initialCheckFuture;
     private volatile boolean shuttingDown = false;
+    private volatile boolean initialized = false;
     private JDA jda;
     private boolean developmentCommandsEnabled = false;
 
@@ -130,7 +131,14 @@ public class ActionItemCommandHandler implements BotCommandHandler {
 
     @Override
     public void initialize(JDA jda) {
+        // Prevent duplicate initialization
+        if (initialized) {
+            logger.debug("ActionItemCommandHandler already initialized, skipping duplicate initialization");
+            return;
+        }
+        
         this.jda = jda;
+        initialized = true;
         scheduleDailyCheck();
         
         // Schedule initial notification check to run after JDA is fully ready
@@ -152,6 +160,7 @@ public class ActionItemCommandHandler implements BotCommandHandler {
     public void shutdown() {
         logger.debug("Shutting down ActionItemCommandHandler...");
         shuttingDown = true;
+        initialized = false;
         // Cancel scheduled tasks first
         try {
             if (dailyCheckFuture != null) {

@@ -74,7 +74,7 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <finalName>zig-bot</finalName>
+                            <finalName>discord-bot</finalName>
                             <outputDirectory>${project.parent.basedir}</outputDirectory>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <filters>

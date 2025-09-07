@@ -47,7 +47,7 @@ echo "Press Ctrl+C to stop the bot"
 echo ""
 
 # Run the standalone fat JAR
-java -jar zig-bot.jar
+java -jar discord-bot.jar
 
 if [ $? -ne 0 ]; then
     echo ""

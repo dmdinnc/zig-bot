@@ -51,6 +51,7 @@ public class CrosswordCommandHandler extends ListenerAdapter implements BotComma
     private final CrosswordChannelPersistence channelPersistence;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private volatile boolean shuttingDown = false;
+    private volatile boolean initialized = false;
     private ScheduledFuture<?> dailyLeaderboardFuture;
     private ScheduledFuture<?> initialLeaderboardCheckFuture;
     private JDA jda;
@@ -69,7 +70,14 @@ public class CrosswordCommandHandler extends ListenerAdapter implements BotComma
     
     @Override
     public void initialize(JDA jda) {
+        // Prevent duplicate initialization
+        if (initialized) {
+            logger.debug("CrosswordCommandHandler already initialized, skipping duplicate initialization");
+            return;
+        }
+        
         this.jda = jda;
+        initialized = true;
 
         // Load development commands configuration
         loadDevelopmentConfig();
@@ -386,6 +394,7 @@ public class CrosswordCommandHandler extends ListenerAdapter implements BotComma
     @Override
     public void shutdown() {
         shuttingDown = true;
+        initialized = false;
         // Cancel scheduled tasks first
         try {
             if (dailyLeaderboardFuture != null) {
